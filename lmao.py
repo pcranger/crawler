@@ -8,7 +8,7 @@ urls = []
 
 
 def fetchpage(url, i, bottomurls, pageurls):
-    print("Fetching urls from page #" + str(i))
+    print("Getting urls from page #" + str(i))
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'html.parser')
     baseurl = "https://tuoitre.vn"

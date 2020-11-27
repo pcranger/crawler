@@ -22,14 +22,13 @@ def download(url):
     else:
         return
     images = []
-    n = len(vcs) - 1
-    vcs = vcs[:n]
     for i, vc in enumerate(vcs):
         # find and save image
         try:
             image_url = vc.div.img['src']
         except:
             break
+        print("    downloading image: " + image_url)
         try:
             img = Image.open(requests.get(image_url, stream=True).raw)
         except:
@@ -50,18 +49,18 @@ def download(url):
 
 
 def exec():
-    urls = lmao.returndata()
-    print("________________________________________________________")
-    print("Downloading")
-    print("________________________________________________________")
-    if os.path.isdir('download') == False:
-        os.mkdir('download')
-    for i in urls:
-        print("downloading " + i)
-        download(i)
-    pass
-    # download(
-    #     "https://tuoitre.vn/nguoi-viet-chua-chu-trong-den-bua-sang-20181015092430393.htm")
+    # urls = lmao.returndata()
+    # print("________________________________________________________")
+    # print("Downloading")
+    # print("________________________________________________________")
+    # os.mkdir('download')
+    # for i in urls:
+    #     print("Fetching " + i)
+    #     download(i)
+    # pass
+    os.mkdir('download')
+    download(
+        "https://tuoitre.vn/dinh-duong-co-the-giup-phat-trien-eq-cho-tre-em-1368922.htm")
 
 
 exec()
