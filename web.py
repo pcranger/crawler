@@ -15,7 +15,7 @@ def download(url):
     vcs = soup.find_all('div', class_='VCSortableInPreviewMode')
     h1 = soup.find('h1').text
     h1 = unidecode.unidecode(h1)
-    h1 = re.sub('[!,*)@#%(&$_?.^]', '', h1)
+    h1 = re.sub(r'\W+', '', h1)
     # make a folder with h1
     if os.path.isdir(f'./download/{h1}') == False:
         os.mkdir(f'./download/{h1}')
