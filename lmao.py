@@ -8,7 +8,7 @@ urls = []
 
 
 def fetchpage(url, i, bottomurls, pageurls):
-    print("Link from page #" + str(i))
+    print("Fetching urls from page #" + str(i))
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'html.parser')
     baseurl = "https://tuoitre.vn"
@@ -26,7 +26,6 @@ def fetchpage(url, i, bottomurls, pageurls):
     pagetags = soup.find_all('h3', class_='title-news')
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
-        print("fetching " + pageurl)
         pageurls.append(pageurl)
     if pagetags == []:
         return pageurls
