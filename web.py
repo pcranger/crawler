@@ -29,9 +29,11 @@ def download(url):
         with open(f'./{datetime}/caption{i}.html', 'a', encoding='utf-8') as f:
             f.write(cap)
         # find and save image
-        image_url = vc.div.img['src']
+        try:
+            image_url = vc.div.img['src']
+        except:
+            break
         img = Image.open(requests.get(image_url, stream=True).raw)
-        img.load()
         img.save(f'./{datetime}/image{i}.jpg')
 
 
