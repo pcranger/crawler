@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from PIL import Image
 import os
 import unidecode
-import lmao
+import fetchurl
 
 
 def download(url):
@@ -43,7 +43,7 @@ def download(url):
         # find caption and save to .txt
         try:
             cap = vc.find('p').text
-            with open(f'./download/{h1}/caption{i}.html', 'a', encoding='utf-8') as f:
+            with open(f'./download/{h1}/caption{i}.txt', 'a', encoding='utf-8') as f:
                 f.write(cap)
         except:
             continue
@@ -51,7 +51,7 @@ def download(url):
 
 
 def exec():
-    urls = lmao.returndata()
+    urls = fetchurl.returndata()
     print("________________________________________________________")
     print("Downloading")
     print("________________________________________________________")
@@ -60,9 +60,6 @@ def exec():
         print("Fetching " + i)
         download(i)
     pass
-    os.mkdir('download')
-    # download(
-    #     "https://tuoitre.vn/dinh-duong-co-the-giup-phat-trien-eq-cho-tre-em-1368922.htm")
 
 
 exec()
