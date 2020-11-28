@@ -2,6 +2,6 @@
 
 Open terminal in your text editor (recommend VSCode)
 
-<!-- on terminal, type: -->
+In terminal, type:
 1. cd my-app
 2. yarn start
