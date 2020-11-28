@@ -13,6 +13,8 @@ def download(url):
     soup = BeautifulSoup(req.content, 'html.parser')
     # find image tag
     vcs = soup.find_all('div', class_='VCSortableInPreviewMode')
+    if vcs == []:
+        vcs = soup.find_all('div', class_='content fck')
     h1 = soup.find('h1').text
     h1 = unidecode.unidecode(h1)
     h1 = re.sub(r'\W+', '', h1)
@@ -25,10 +27,10 @@ def download(url):
     for i, vc in enumerate(vcs):
         # find and save image
         try:
-            image_url = vc.div.img['src']
+            image_url = vc.img['src']
+            print("    downloading image: " + image_url)
         except:
             break
-        print("    downloading image: " + image_url)
         try:
             img = Image.open(requests.get(image_url, stream=True).raw)
         except:
@@ -49,18 +51,18 @@ def download(url):
 
 
 def exec():
-    # urls = lmao.returndata()
-    # print("________________________________________________________")
-    # print("Downloading")
-    # print("________________________________________________________")
-    # os.mkdir('download')
-    # for i in urls:
-    #     print("Fetching " + i)
-    #     download(i)
-    # pass
+    urls = lmao.returndata()
+    print("________________________________________________________")
+    print("Downloading")
+    print("________________________________________________________")
     os.mkdir('download')
-    download(
-        "https://tuoitre.vn/dinh-duong-co-the-giup-phat-trien-eq-cho-tre-em-1368922.htm")
+    for i in urls:
+        print("Fetching " + i)
+        download(i)
+    pass
+    os.mkdir('download')
+    # download(
+    #     "https://tuoitre.vn/dinh-duong-co-the-giup-phat-trien-eq-cho-tre-em-1368922.htm")
 
 
 exec()
