@@ -12,10 +12,9 @@ def download(url):
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'html.parser')
     # find image tag
-    vcs = soup.find_all('div', class_='VCSortableInPreviewMode')
-    if vcs == []:
-        vcs = soup.find_all('div', class_='content fck')
-    h1 = soup.find('h1').text
+    vcs = soup.find_all('figure')
+    # find h1
+    h1 = soup.find_all('h1')[1].text
     h1 = unidecode.unidecode(h1)
     h1 = re.sub(r'\W+', '', h1)
     # make a folder with h1
@@ -42,11 +41,12 @@ def download(url):
 
         # find caption and save to .txt
         try:
-            cap = vc.find('p').text
+            cap = vc.figcaption.p.text
             with open(f'./download/{h1}/caption{i}.txt', 'a', encoding='utf-8') as f:
                 f.write(cap)
         except:
             continue
+
             # fix caption
 
 
@@ -59,4 +59,10 @@ def exec():
     for i in urls:
         print("Fetching " + i)
         download(i)
+    # os.mkdir('download')
+    # download('https://dantri.com.vn/suc-khoe/dot-nhien-mat-ham-muon-voi-vo-chuyen-khong-cua-rieng-ai-20201126164350701.htm')
+
     pass
+
+
+exec()
