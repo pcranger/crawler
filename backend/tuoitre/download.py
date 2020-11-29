@@ -53,10 +53,14 @@ def download(url):
 def exec():
     urls = fetchurl.returndata()
     print("________________________________________________________")
-    print("Downloading")
+    print("Downloading " + "articles: " + str(len(urls)))
     print("________________________________________________________")
     os.mkdir('download')
-    for i in urls:
-        print("Fetching " + i)
-        download(i)
+
+    for i, page in enumerate(urls):
+        print("Fetching" + "(" + str(i) + "/" + str(len(urls)) + "): " + page)
+        download(page)
     pass
+
+
+exec()

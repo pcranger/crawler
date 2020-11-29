@@ -14,7 +14,10 @@ def download(url):
     # find image tag
     vcs = soup.find_all('figure')
     # find h1
-    h1 = soup.find_all('h1')[1].text
+    try:
+        h1 = soup.find_all('h1')[1].text
+    except:
+        h1 = soup.find_all('h1')[0].text
     h1 = unidecode.unidecode(h1)
     h1 = re.sub(r'\W+', '', h1)
     # make a folder with h1
@@ -27,7 +30,6 @@ def download(url):
         # find and save image
         try:
             image_url = vc.img['src']
-            print("    downloading image: " + image_url)
         except:
             break
         try:
@@ -53,12 +55,13 @@ def download(url):
 def exec():
     urls = fetchurl.returndata()
     print("________________________________________________________")
-    print("Downloading")
+    print("Downloading " + "articles: " + str(len(urls)))
     print("________________________________________________________")
     os.mkdir('download')
-    for i in urls:
-        print("Fetching " + i)
-        download(i)
+
+    for i, page in enumerate(urls):
+        print("Fetching" + "(" + str(i) + "/" + str(len(urls)) + "): " + page)
+        download(page)
     # os.mkdir('download')
     # download('https://dantri.com.vn/suc-khoe/dot-nhien-mat-ham-muon-voi-vo-chuyen-khong-cua-rieng-ai-20201126164350701.htm')
 
