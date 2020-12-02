@@ -42,7 +42,7 @@ def fetchvnexpress(url, i, pageurls):
         return fetchvnexpress(url, i, pageurls)
 
 
-def fetchdantri(url, i, baseurl, pageurls):
+def fetchdantri(url, i, baseurl, pageurls1):
 
     print("Getting urls from page #" + str(i))
     req = requests.get(url)
@@ -52,17 +52,17 @@ def fetchdantri(url, i, baseurl, pageurls):
         'div', class_='news-item news-item--timeline news-item--left2right')
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
-        pageurls.append(pageurl)
+        pageurls1.append(pageurl)
     # if i == 30:  # uncomment to crawl all
     if i == 1:
-        return pageurls
+        return pageurls1
     else:
         i += 1
         url = url[:44] + str(i) + ".htm"
-        return fetchdantri(url, i, basedantri, pageurls)
+        return fetchdantri(url, i, basedantri, pageurls1)
 
 
-def fetchtuoitre(url, i, bottomurls, baseurl, pageurls):
+def fetchtuoitre(url, i, bottomurls, baseurl, pageurls2):
 
     print("Getting urls from page #" + str(i))
     req = requests.get(url)
@@ -82,23 +82,28 @@ def fetchtuoitre(url, i, bottomurls, baseurl, pageurls):
 
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
-        pageurls.append(pageurl)
-    # if pagetags == []:# uncomment to crawl all
-    if i == 1:
-        return pageurls
+        pageurls2.append(pageurl)
+    # if pagetags == []: #uncomment to crawl all
+        return pageurls2
     else:
         i += 1
         url = url[:45] + str(i) + ".htm"
-        return fetchtuoitre(url, i, bottomurls, basetuoitre, pageurls)
+        return fetchtuoitre(url, i, bottomurls, basetuoitre, pageurls2)
 
 
 def returndata():
-    pageurls = []
+    u = []
     print("Getting urls from tuoitre")
-    tuoitreurl = fetchtuoitre(urltuoitre, 1, bottomurls, basetuoitre, pageurls)
+    tuoitreurl = fetchtuoitre(urltuoitre, 1, bottomurls, basetuoitre, u)
     print("Getting urls from dantri")
-    dantriurl = fetchdantri(urldantri, 1, basedantri, pageurls)
+    u1 = []
+    dantriurl = fetchdantri(urldantri, 1, basedantri, u1)
     print("Getting urls from vnexpress")
-    vnexpressurl = fetchvnexpress(urlvnexpress, 1, pageurls)
+    u2 = []
+    vnexpressurl = fetchvnexpress(urlvnexpress, 1, u2)
     urls = [tuoitreurl, dantriurl, vnexpressurl]
     return urls
+
+
+a = returndata()
+pprint(a)

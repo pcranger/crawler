@@ -136,7 +136,8 @@ def exec():
     # get url from fetchurl.py and put it in an array
     urls = fetchurl.returndata()
     print("________________________________________________________")
-    print("Fetching " + str(len(urls)) + "articles ")
+    print("Fetching " +
+          str(len(urls[0]) + len(urls[1]) + len(urls[2])) + " articles ")
     print("________________________________________________________")
     for i, page in enumerate(urls[0]):
         print("Fetching" + "(" + str(i) + "/" +
