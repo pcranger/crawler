@@ -33,7 +33,8 @@ def fetchvnexpress(url, i, pageurls):
         except:
             continue
 
-    if i == 100:
+    # if i == 100:# uncomment to crawl all
+    if i == 1:
         return pageurls
     else:
         i += 1
@@ -52,7 +53,8 @@ def fetchdantri(url, i, baseurl, pageurls):
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
         pageurls.append(pageurl)
-    if i == 30:  # dantri has 30 pages only, while padding for example p200 to url only show result of page 30
+    # if i == 30:  # uncomment to crawl all
+    if i == 1:
         return pageurls
     else:
         i += 1
@@ -81,7 +83,8 @@ def fetchtuoitre(url, i, bottomurls, baseurl, pageurls):
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
         pageurls.append(pageurl)
-    if pagetags == []:
+    # if pagetags == []:# uncomment to crawl all
+    if i == 1:
         return pageurls
     else:
         i += 1
