@@ -13,8 +13,8 @@ basedantri = "https://dantri.com.vn"
 urlvnexpress = "https://vnexpress.net/suc-khoe/dinh-duong-p2"
 
 
-def fetchvnexpress(url, i):
-    print("Getting urls from vnexpress")
+def fetchvnexpress(url, i, pageurls):
+
     print("Getting urls from page #" + str(i))
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'html.parser')
@@ -26,7 +26,6 @@ def fetchvnexpress(url, i):
 
     pagetags = soup.find_all(
         'article', class_='item-news item-news-common')
-    pageurls = []
     for pageurl in pagetags:
         try:
             pageurl = pageurl.p.a.attrs["href"]
@@ -34,7 +33,7 @@ def fetchvnexpress(url, i):
         except:
             continue
 
-    if i == 1:
+    if i == 100:
         return pageurls
     else:
         i += 1
@@ -42,29 +41,27 @@ def fetchvnexpress(url, i):
         return fetchvnexpress(url, i, pageurls)
 
 
-def fetchdantri(url, i, baseurl):
-    print("Getting urls from dantri")
+def fetchdantri(url, i, baseurl, pageurls):
+
     print("Getting urls from page #" + str(i))
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'html.parser')
 
     pagetags = soup.find_all(
         'div', class_='news-item news-item--timeline news-item--left2right')
-    pageurls = []
-
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
         pageurls.append(pageurl)
-    if i == 1:
+    if i == 30:  # dantri has 30 pages only, while padding for example p200 to url only show result of page 30
         return pageurls
     else:
         i += 1
         url = url[:44] + str(i) + ".htm"
-        return fetchdantri(url, i, pageurls, basedantri)
+        return fetchdantri(url, i, basedantri, pageurls)
 
 
-def fetchtuoitre(url, i, bottomurls, baseurl):
-    print("Getting urls from tuoitre")
+def fetchtuoitre(url, i, bottomurls, baseurl, pageurls):
+
     print("Getting urls from page #" + str(i))
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'html.parser')
@@ -80,31 +77,29 @@ def fetchtuoitre(url, i, bottomurls, baseurl):
 
     # news-item
     pagetags = soup.find_all('h3', class_='title-news')
-    pageurls = []
 
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
         pageurls.append(pageurl)
-    if i == 1:
+    if pagetags == []:
         return pageurls
     else:
         i += 1
         url = url[:45] + str(i) + ".htm"
-        return fetchtuoitre(url, i, bottomurls, pageurls, basetuoitre)
+        return fetchtuoitre(url, i, bottomurls, basetuoitre, pageurls)
 
 
 def returndata():
-
-    tuoitreurl = fetchtuoitre(urltuoitre, 1, bottomurls, basetuoitre)
-    dantriurl = fetchdantri(urldantri, 1, basedantri)
-    vnexpressurl = fetchvnexpress(urlvnexpress, 1)
+    pageurls = []
+    print("Getting urls from tuoitre")
+    tuoitreurl = fetchtuoitre(urltuoitre, 1, bottomurls, basetuoitre, pageurls)
+    print("Getting urls from dantri")
+    dantriurl = fetchdantri(urldantri, 1, basedantri, pageurls)
+    print("Getting urls from vnexpress")
+    vnexpressurl = fetchvnexpress(urlvnexpress, 1, pageurls)
     urls = [tuoitreurl, dantriurl, vnexpressurl]
     pprint(urls)
     return urls
 
 
 returndata()
-# a = returndata()
-# pprint(a)
-# e = np.array(a)
-# print(e.shape)
