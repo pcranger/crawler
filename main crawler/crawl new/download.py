@@ -103,7 +103,7 @@ def downloadtuoitre(url):
     article["header"] = h1
     images = []
     for i, vc in enumerate(vcs):
-        # find and save image
+        # find image
         try:
             image_url = vc.img['src']
         except:
@@ -111,7 +111,7 @@ def downloadtuoitre(url):
         if "https" not in image_url:
             image_url = 'https:' + image_url
         article['image'].append(image_url)
-        # find caption and save to .txt
+        # find caption
         try:
             cap = vc.figcaption.p.text
             # fix caption

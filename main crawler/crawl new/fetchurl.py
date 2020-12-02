@@ -14,6 +14,7 @@ urlvnexpress = "https://vnexpress.net/suc-khoe/dinh-duong-p2"
 
 
 def fetchvnexpress(url, i, pageurls):
+    print("Getting urls from vnexpress")
     print("Getting urls from page #" + str(i))
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'html.parser')
@@ -32,7 +33,7 @@ def fetchvnexpress(url, i, pageurls):
         except:
             continue
 
-    if i == 2:
+    if i == 1:
         return pageurls
     else:
         i += 1
@@ -50,7 +51,7 @@ def fetchdantri(url, i, pageurls, baseurl):
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
         pageurls.append(pageurl)
-    if i == 30:
+    if i == 1:
         return pageurls
     else:
         i += 1
@@ -77,7 +78,7 @@ def fetchtuoitre(url, i, bottomurls, pageurls, baseurl):
     for pageurl in pagetags:
         pageurl = baseurl + pageurl.a.attrs["href"]
         pageurls.append(pageurl)
-    if i == 30:
+    if i == 1:
         return pageurls
     else:
         i += 1
