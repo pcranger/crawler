@@ -60,10 +60,13 @@ def downloadvnexpress(url):
     # find image tag
     vcs = soup.find_all('figure')
     # reformat h1 (header)
-    h1 = soup.find('h1').text
-    h1 = unidecode.unidecode(h1)
-    h1 = re.sub(r'\W+', '', h1)
-    article["header"] = h1
+    try:
+        h1 = soup.find('h1').text
+        h1 = unidecode.unidecode(h1)
+        h1 = re.sub(r'\W+', '', h1)
+        article["header"] = h1
+    except:
+        pass
     images = []
     for i, vc in enumerate(vcs):
         # find and save image
@@ -135,15 +138,28 @@ def exec():
     print("________________________________________________________")
     print("Fetching " + str(len(urls)) + "articles ")
     print("________________________________________________________")
-    for j in urls:
-        for i, page in enumerate(j):
-            print("Fetching" + "(" + str(i) + "/" + str(len(urls)) + "): " + page)
-            tuoitredata = downloadtuoitre(page)
-            data['tuoitre'].append({i: tuoitredata})
-            dantridata = downloaddantri(page)
-            data['dantri'].append({i: dantridata})
-            vnexpressdata = downloadvnexpress(page)
-            data['vnexpress'].append({i: vnexpressdata})
+    for i, page in enumerate(urls[0]):
+        print("Fetching" + "(" + str(i) + "/" +
+              str(len(urls[0])) + "): " + page)
+        tuoitredata = downloadtuoitre(page)
+        data['tuoitre'].append({i: tuoitredata})
+    print("donetuoitre")
+
+    for i, page in enumerate(urls[1]):
+        print("Fetching" + "(" + str(i) + "/" +
+              str(len(urls[1])) + "): " + page)
+        dantridata = downloaddantri(page)
+        data['dantri'].append({i: dantridata})
+    print("donedantri")
+
+    for i, page in enumerate(urls[2]):
+        print("Fetching" + "(" + str(i) + "/" +
+              str(len(urls[2])) + "): " + page)
+
+        vnexpressdata = downloadvnexpress(page)
+        data['vnexpress'].append({i: vnexpressdata})
+    print("donevnexpress")
+
     pass
     return data
 
