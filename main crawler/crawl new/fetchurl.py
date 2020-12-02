@@ -98,8 +98,4 @@ def returndata():
     print("Getting urls from vnexpress")
     vnexpressurl = fetchvnexpress(urlvnexpress, 1, pageurls)
     urls = [tuoitreurl, dantriurl, vnexpressurl]
-    pprint(urls)
     return urls
-
-
-returndata()
