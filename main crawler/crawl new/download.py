@@ -1,7 +1,6 @@
 import requests
 import re
 from bs4 import BeautifulSoup
-from PIL import Image
 import unidecode
 import fetchurl
 import json
@@ -28,7 +27,7 @@ def downloaddantri(url):
     article["header"] = h1
     images = []
     for i, vc in enumerate(vcs):
-        # find and save image
+        # find image
         try:
             image_url = vc.img['src']
         except:
@@ -37,7 +36,7 @@ def downloaddantri(url):
             image_url = 'https:' + image_url
         article['image'].append(image_url)
 
-        # find caption and save to .txt
+        # find caption
         try:
             cap = vc.figcaption.p.text
             # fix caption
@@ -45,6 +44,9 @@ def downloaddantri(url):
                 cap = h1
         except:
             continue
+    if images == []:
+        return "err"
+    else:
         return article
 
 
@@ -75,7 +77,7 @@ def downloadvnexpress(url):
         except:
             break
         article['image'].append(image_url)
-        # find caption and save to .txt
+        # find caption and
         try:
             cap = vc.figcaption.p.text
             # fix caption
@@ -84,7 +86,10 @@ def downloadvnexpress(url):
         except:
             continue
         article['caption'].append(cap)
-    return article
+    if images == []:
+        return "err"
+    else:
+        return article
 
 
 def downloadtuoitre(url):
@@ -101,7 +106,6 @@ def downloadtuoitre(url):
     if vcs == []:
         vcs = soup.find_all('div', class_='content fck')
     h1 = soup.find('h1').text
-    h1 = unidecode.unidecode(h1)
     h1 = re.sub(r'\W+', ' ', h1)
     article["header"] = h1
     images = []
@@ -125,7 +129,10 @@ def downloadtuoitre(url):
             continue
         article['caption'].append(cap)
 
-    return article
+    if images == []:
+        return "err"
+    else:
+        return article
 
 
 def exec():
@@ -144,6 +151,8 @@ def exec():
         print("Fetching" + "(" + str(i) + "/" +
               str(len(urls[0])) + "): " + page)
         tuoitredata = downloadtuoitre(page)
+        if tuoitredata == "err":
+            continue
         data['tuoitre'].append(tuoitredata)
     print("donetuoitre")
 
@@ -151,6 +160,8 @@ def exec():
         print("Fetching" + "(" + str(i) + "/" +
               str(len(urls[1])) + "): " + page)
         dantridata = downloaddantri(page)
+        if dantridata == "err":
+            continue
         data['dantri'].append(dantridata)
     print("donedantri")
 
@@ -159,6 +170,8 @@ def exec():
               str(len(urls[2])) + "): " + page)
 
         vnexpressdata = downloadvnexpress(page)
+        if vnexpressdata == "err":
+            continue
         data['vnexpress'].append(vnexpressdata)
     print("donevnexpress")
 

@@ -1,7 +1,5 @@
-import numpy as np
 import requests
 from bs4 import BeautifulSoup
-from pprint import pprint
 urltuoitre = "https://tuoitre.vn/suc-khoe/dinh-duong/trang-1.htm"
 bottomurls = []
 urls = []
@@ -33,7 +31,6 @@ def fetchvnexpress(url, i, pageurls):
         except:
             continue
 
-    # if i == 100:# uncomment to crawl all
     if i == 1:
         return pageurls
     else:
@@ -103,7 +100,3 @@ def returndata():
     vnexpressurl = fetchvnexpress(urlvnexpress, 1, u2)
     urls = [tuoitreurl, dantriurl, vnexpressurl]
     return urls
-
-
-a = returndata()
-pprint(a)
