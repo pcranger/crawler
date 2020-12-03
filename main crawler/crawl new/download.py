@@ -117,6 +117,7 @@ def downloadtuoitre(url):
         # find caption
         try:
             cap = vc.figcaption.p.text
+            print(cap)
             # fix caption
             if cap == "":
                 cap = h1
@@ -143,14 +144,14 @@ def exec():
         print("Fetching" + "(" + str(i) + "/" +
               str(len(urls[0])) + "): " + page)
         tuoitredata = downloadtuoitre(page)
-        data['tuoitre'].append({i: tuoitredata})
+        data['tuoitre'].append(tuoitredata)
     print("donetuoitre")
 
     for i, page in enumerate(urls[1]):
         print("Fetching" + "(" + str(i) + "/" +
               str(len(urls[1])) + "): " + page)
         dantridata = downloaddantri(page)
-        data['dantri'].append({i: dantridata})
+        data['dantri'].append(dantridata)
     print("donedantri")
 
     for i, page in enumerate(urls[2]):
@@ -158,7 +159,7 @@ def exec():
               str(len(urls[2])) + "): " + page)
 
         vnexpressdata = downloadvnexpress(page)
-        data['vnexpress'].append({i: vnexpressdata})
+        data['vnexpress'].append(vnexpressdata)
     print("donevnexpress")
 
     pass
